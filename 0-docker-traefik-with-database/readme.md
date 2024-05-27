@@ -4,7 +4,7 @@ This example shows how to run solidtime with Docker, Traefik, and with a databas
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/)
+- [Docker](https://docs.docker.com/engine/install/)
 - [Traefik V2 (Docker)](https://doc.traefik.io/traefik/getting-started/install-traefik/) with [Configuration Discovery](https://doc.traefik.io/traefik/providers/docker/)
 
 If you don't know how to set up Traefik with automatic configuration discovery via labels, you can use [this guide](https://github.com/korridor/reverse-proxy-docker-traefik).
@@ -21,7 +21,7 @@ cp .env.example .env
 2. Correct the permissions of the `app-storage` and `logs` directories.
 
 ```bash
-chmod -R 1000:1000 app-storage logs
+chown -R 1000:1000 app-storage logs
 ```
 
 ## Database access on the host machine

@@ -8,5 +8,5 @@ It is important that you follow the instructions in the documentation first and 
 
 ## License
 
-The self-hosting examples are licensed under the MIT License. See [LICENSE.md](LICENSE.md) for more information.
+The self-hosting examples are licensed under the MIT License. See [license.md](license.md) for more information.
 This is NOT the license for the solidtime application itself. The solidtime application is licensed under the AGPL-3.0 License. See [LICENSE](https://github.com/solidtime-io/solidtime/blob/main/LICENSE.md).

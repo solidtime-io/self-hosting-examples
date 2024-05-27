@@ -4,7 +4,7 @@ This example shows how to run solidtime with Docker and with a database inside t
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/)
+- [Docker](https://docs.docker.com/engine/install/)
 - A reverse proxy like Nginx or Traefik
 
 The reverse proxy can be installed with or without Docker.
@@ -22,7 +22,7 @@ cp .env.example .env
 2. Correct the permissions of the `app-storage` and `logs` directories.
 
 ```bash
-chmod -R 1000:1000 app-storage logs
+chown -R 1000:1000 app-storage logs
 ```
 
 ## Database access on the host machine

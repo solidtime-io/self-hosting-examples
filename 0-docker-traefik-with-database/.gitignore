@@ -1,0 +1,6 @@
+/logs
+!/logs/.gitkeep
+/app-storage
+!/app-storage/.gitkeep
+/.env
+/laravel.env

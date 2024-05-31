@@ -24,7 +24,7 @@ cp .env.example .env
 chown -R 1000:1000 app-storage logs
 ```
 
-Follow further instructions on [Self-Hosting Docs](https://docs.solidtime.io//self-hosting/guides/docker)
+Follow further instructions on [Self-Hosting Docs](https://docs.solidtime.io/self-hosting/guides/docker)
 
 ## Database access on the host machine
 

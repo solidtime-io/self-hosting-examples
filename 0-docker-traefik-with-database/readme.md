@@ -18,11 +18,13 @@ cp laravel.env.example laravel.env
 cp .env.example .env
 ```
 
-2. Correct the permissions of the `app-storage` and `logs` directories.
+2. (Only with Linux/Docker Engine) Correct the permissions of the `app-storage` and `logs` directories.
 
 ```bash
 chown -R 1000:1000 app-storage logs
 ```
+
+Follow further instructions on [Self-Hosting Docs](https://docs.solidtime.io/self-hosting/guides/docker)
 
 ## Database access on the host machine
 

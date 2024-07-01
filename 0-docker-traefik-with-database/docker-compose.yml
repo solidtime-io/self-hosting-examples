@@ -2,7 +2,7 @@ services:
   app:
     restart: always
     platform: linux/x86_64
-    image: solidtime/solidtime:main
+    image: solidtime/solidtime:latest
     user: "1000:1000"
     labels:
       - "traefik.enable=true"
@@ -33,7 +33,7 @@ services:
   scheduler:
     restart: always
     platform: linux/x86_64
-    image: solidtime/solidtime:main
+    image: solidtime/solidtime:latest
     networks:
       - internal
     volumes:
@@ -49,7 +49,7 @@ services:
   queue:
     restart: always
     platform: linux/x86_64
-    image: solidtime/solidtime:main
+    image: solidtime/solidtime:latest
     user: "1000:1000"
     networks:
       - internal

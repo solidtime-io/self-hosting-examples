@@ -2,7 +2,7 @@ services:
   app:
     restart: always
     platform: linux/x86_64
-    image: solidtime/solidtime:main
+    image: solidtime/solidtime:latest
     user: "1000:1000"
     ports:
       - '${FORWARD_APP_PORT:-8000}:8000'
@@ -21,7 +21,7 @@ services:
   scheduler:
     restart: always
     platform: linux/x86_64
-    image: solidtime/solidtime:main
+    image: solidtime/solidtime:latest
     networks:
       - internal
     volumes:
@@ -37,7 +37,7 @@ services:
   queue:
     restart: always
     platform: linux/x86_64
-    image: solidtime/solidtime:main
+    image: solidtime/solidtime:latest
     user: "1000:1000"
     networks:
       - internal

@@ -26,6 +26,12 @@ services:
       - "./app-storage:/var/www/html/storage/app"
     environment:
       CONTAINER_MODE: http
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail http://localhost:8000/health-check/up || exit 1" ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
     env_file:
       - laravel.env
     depends_on:

@@ -1,8 +1,7 @@
 services:
   app:
     restart: always
-    platform: linux/x86_64
-    image: solidtime/solidtime:latest
+    image: "solidtime/solidtime:${SOLIDTIME_IMAGE_TAG:-latest}"
     user: "1000:1000"
     labels:
       - "traefik.enable=true"
@@ -28,18 +27,14 @@ services:
       CONTAINER_MODE: http
     healthcheck:
       test: [ "CMD-SHELL", "curl --fail http://localhost:8000/health-check/up || exit 1" ]
-      interval: 5s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
     env_file:
       - laravel.env
     depends_on:
       - database
   scheduler:
     restart: always
-    platform: linux/x86_64
-    image: solidtime/solidtime:latest
+    image: "solidtime/solidtime:${SOLIDTIME_IMAGE_TAG:-latest}"
+    user: "1000:1000"
     networks:
       - internal
     volumes:
@@ -48,14 +43,15 @@ services:
       - "./app-storage:/var/www/html/storage/app"
     environment:
       CONTAINER_MODE: scheduler
+    healthcheck:
+      test: [ "CMD-SHELL", "supervisorctl status scheduler:scheduler_00" ]
     env_file:
       - laravel.env
     depends_on:
       - database
   queue:
     restart: always
-    platform: linux/x86_64
-    image: solidtime/solidtime:latest
+    image: "solidtime/solidtime:${SOLIDTIME_IMAGE_TAG:-latest}"
     user: "1000:1000"
     networks:
       - internal
@@ -66,11 +62,14 @@ services:
     environment:
       CONTAINER_MODE: worker
       WORKER_COMMAND: "php /var/www/html/artisan queue:work"
+    healthcheck:
+      test: [ "CMD-SHELL", "supervisorctl status worker:worker_00" ]
     env_file:
       - laravel.env
     depends_on:
       - database
   database:
+    restart: always
     image: 'postgres:15'
 #    ports:
 #      - '${FORWARD_DB_PORT:-5432}:5432'

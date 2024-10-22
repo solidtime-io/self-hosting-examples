@@ -5,7 +5,7 @@ This example shows how to run solidtime with Docker and with a database inside t
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/engine/install/)
-- A reverse proxy like Nginx or Traefik
+- A reverse proxy like Nginx or Traefik OR you can use the solidtime image without a reverse proxy for local setups.
 
 The reverse proxy can be installed with or without Docker.
 The example only exposes the solidtime application on a port defined by a configuration.

@@ -81,6 +81,12 @@ services:
         - '${DB_USERNAME}'
       retries: 3
       timeout: 5s
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    networks:
+      - internal
+    healthcheck:
+      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:3000/health" ]
 networks:
   internal:
 volumes:

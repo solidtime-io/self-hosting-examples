@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: solidtime-storage
+  namespace: solidtime
+spec:
+  accessModes:
+    - ReadWriteMany  # Required for multiple pods to share storage
+  resources:
+    requests:
+      storage: 10Gi
+  # Specify your storage class (e.g., nfs, local-path, do-block-storage, etc.)
+  # Check available storage classes: kubectl get storageclass
+  storageClassName: nfs  # Change this to match your cluster's storage class
+

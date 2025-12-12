@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: solidtime-config
+  namespace: solidtime
+data:
+  # Application Configuration
+  APP_NAME: "Solidtime"
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_TIMEZONE: "UTC"
+  APP_URL: "https://solidtime.example.com"
+  APP_LOCALE: "en"
+  APP_FALLBACK_LOCALE: "en"
+  APP_FAKER_LOCALE: "en_US"
+  APP_FORCE_HTTPS: "true"
+  
+  # Trusted Proxies (for Kubernetes/Nginx Ingress)
+  TRUSTED_PROXIES: "0.0.0.0/0,2000:0:0:0:0:0:0:0/3"
+  
+  # Queue Configuration
+  QUEUE_CONNECTION: "database"
+  
+  # Cache Configuration
+  CACHE_STORE: "database"
+  CACHE_PREFIX: ""
+  VIEW_COMPILED_PATH: "/var/www/html/storage/framework/views"
+  
+  # Session Configuration
+  SESSION_DRIVER: "database"
+  SESSION_LIFETIME: "120"
+  SESSION_ENCRYPT: "false"
+  SESSION_PATH: "/"
+  SESSION_DOMAIN: ""
+  
+  # Log Configuration
+  LOG_CHANNEL: "stack"
+  LOG_STACK: "single"
+  LOG_DEPRECATIONS_CHANNEL: "null"
+  LOG_LEVEL: "info"
+  
+  # File Storage Configuration
+  FILESYSTEM_DISK: "local"
+  PUBLIC_FILESYSTEM_DISK: "public"
+  
+  # Gotenberg Configuration (PDF generation)
+  # Using Kubernetes internal DNS: SERVICENAME.NAMESPACE.svc.cluster.local
+  # Port is required as DNS only resolves the hostname, not the port
+  GOTENBERG_URL: "http://gotenberg.solidtime.svc.cluster.local:3000"
+

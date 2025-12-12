@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gotenberg
+  namespace: solidtime
+  labels:
+    app: solidtime
+    component: gotenberg
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: solidtime
+    component: gotenberg
+

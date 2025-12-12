@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solidtime-app
+  namespace: solidtime
+  labels:
+    app: solidtime
+    component: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: solidtime
+      component: app
+  template:
+    metadata:
+      labels:
+        app: solidtime
+        component: app
+    spec:
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+      - name: migrate
+        image: solidtime/solidtime:latest
+        command:
+        - php
+        - /var/www/html/artisan
+        - migrate
+        - --force
+        envFrom:
+        - configMapRef:
+            name: solidtime-config
+        - secretRef:
+            name: solidtime-secrets
+        volumeMounts:
+        - name: app-storage
+          mountPath: /var/www/html/storage/app
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      containers:
+      - name: app
+        image: solidtime/solidtime:latest
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: CONTAINER_MODE
+          value: "http"
+        envFrom:
+        - configMapRef:
+            name: solidtime-config
+        - secretRef:
+            name: solidtime-secrets
+        volumeMounts:
+        - name: app-storage
+          mountPath: /var/www/html/storage/app
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health-check/up
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health-check/up
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: solidtime-storage
+

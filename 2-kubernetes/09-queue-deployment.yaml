@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solidtime-queue
+  namespace: solidtime
+  labels:
+    app: solidtime
+    component: queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solidtime
+      component: queue
+  template:
+    metadata:
+      labels:
+        app: solidtime
+        component: queue
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: queue
+        image: solidtime/solidtime:latest
+        env:
+        - name: CONTAINER_MODE
+          value: "worker"
+        - name: WORKER_COMMAND
+          value: "php /var/www/html/artisan queue:work"
+        envFrom:
+        - configMapRef:
+            name: solidtime-config
+        - secretRef:
+            name: solidtime-secrets
+        volumeMounts:
+        - name: app-storage
+          mountPath: /var/www/html/storage
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - healthcheck
+          initialDelaySeconds: 60
+          periodSeconds: 30
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: solidtime-storage
+

@@ -1,0 +1,52 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: solidtime-scheduler
+  namespace: solidtime
+  labels:
+    app: solidtime
+    component: scheduler
+spec:
+  schedule: "* * * * *"  # Every minute
+  concurrencyPolicy: Forbid  # Prevent overlapping jobs
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app: solidtime
+            component: scheduler
+        spec:
+          securityContext:
+            fsGroup: 1000
+          restartPolicy: OnFailure
+          containers:
+          - name: scheduler
+            image: solidtime/solidtime:latest
+            command:
+            - php
+            - /var/www/html/artisan
+            - schedule:run
+            envFrom:
+            - configMapRef:
+                name: solidtime-config
+            - secretRef:
+                name: solidtime-secrets
+            volumeMounts:
+            - name: app-storage
+              mountPath: /var/www/html/storage/app
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "50m"
+              limits:
+                memory: "256Mi"
+                cpu: "200m"
+          volumes:
+          - name: app-storage
+            persistentVolumeClaim:
+              claimName: solidtime-storage
+

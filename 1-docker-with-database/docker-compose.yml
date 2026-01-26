@@ -9,7 +9,7 @@ services:
       - internal
     volumes:
       - "app-storage:/var/www/html/storage"
-      - "./logs:/var/www/html/storage/logs"
+      - "logs-storage:/var/www/html/storage/logs"
       - "./app-storage:/var/www/html/storage/app"
     environment:
       CONTAINER_MODE: http
@@ -27,7 +27,7 @@ services:
       - internal
     volumes:
       - "app-storage:/var/www/html/storage"
-      - "./logs:/var/www/html/storage/logs"
+      - "logs-storage:/var/www/html/storage/logs"
       - "./app-storage:/var/www/html/storage/app"
     environment:
       CONTAINER_MODE: scheduler
@@ -45,7 +45,7 @@ services:
       - internal
     volumes:
       - "app-storage:/var/www/html/storage"
-      - "./logs:/var/www/html/storage/logs"
+      - "logs-storage:/var/www/html/storage/logs"
       - "./app-storage:/var/www/html/storage/app"
     environment:
       CONTAINER_MODE: worker
@@ -59,8 +59,8 @@ services:
   database:
     restart: always
     image: 'postgres:15'
-#    ports:
-#      - '${FORWARD_DB_PORT:-5432}:5432'
+#   ports:
+#     - '${FORWARD_DB_PORT:-5432}:5432'
     environment:
       PGPASSWORD: '${DB_PASSWORD:-secret}'
       POSTGRES_DB: '${DB_DATABASE}'
@@ -92,3 +92,4 @@ networks:
 volumes:
   database-storage:
   app-storage:
+  logs-storage:

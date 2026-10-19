@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: solidtime-app
+  namespace: solidtime
+  labels:
+    app: solidtime
+    component: app
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: solidtime
+    component: app
+

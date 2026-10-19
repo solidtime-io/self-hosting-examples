@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: solidtime-ingress
+  namespace: solidtime
+  labels:
+    app: solidtime
+  annotations:
+    # Nginx Ingress Controller annotations
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # Cert-manager annotation for automatic TLS certificate
+    cert-manager.io/cluster-issuer: "letsencrypt-cluster-issuer"
+    # Optional: Increase body size limit if needed for file uploads
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    # Optional: Set longer timeouts for long-running requests
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - solidtime.example.com  # Change this to your domain
+    secretName: solidtime-tls
+  rules:
+  - host: solidtime.example.com  # Change this to your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: solidtime-app
+            port:
+              number: 8000
+
